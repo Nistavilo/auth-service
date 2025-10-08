@@ -34,3 +34,9 @@ router.post('/login',async(req,res)=>{
   res.json({token});
 
 })
+
+
+router.get('/profile', authMiddleware, (req,res)=> {
+  const user = users.find (u=> u.id === req.user.id);
+  res.json({id:user.id, username:user.username})
+})
