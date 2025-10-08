@@ -20,3 +20,17 @@ router.post('/register', async (req, res) => {
 
   res.status(201).json({ msg: 'User registered successfully' });
 });
+
+
+router.post('/login',async(req,res)=>{
+  const {username,password} = req.body;
+  const user = users.find(u => u.username === username);
+
+  if(!user) return res.status(400).json({msg: 'Invalid credentials'});
+  const isMatch = await bcrypt.compare(password,user.password);
+  if(!isMatch) return res.status(400).json({msg: 'Invlid credentials'});
+
+  const token = jwt.sign({id:user.id},process.env.JWT_SECRET, {expiresIn:'1h'});
+  res.json({token});
+
+})
