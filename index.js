@@ -1,10 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 
 const app = express();
-app.use(bodyParser.json());
+
+app.use(express.json()); // <<< Bunu ekle
 
 app.use('/api/auth', authRoutes);
 
